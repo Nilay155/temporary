@@ -6,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 export const addNewScheme = asyncHandler(async (req,res) => {
     try {
         const newScheme = await Scheme.create({
-
+            
         })
 
         return res

@@ -9,6 +9,7 @@ const schemeSchema = mongoose.Schema(
       casteApplicable: { type: String },
       religionApplicable: { type: String },
       description: { type: String },
+      maritalStatus : {type : Boolean}
     },
     { timestamps: true }
   );

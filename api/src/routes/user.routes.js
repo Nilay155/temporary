@@ -1,15 +1,8 @@
 import { Router } from "express";
-import { getUserDocument, registerUser } from "../controllers/user.controllers.js";
+import { registerUser } from "../controllers/user.controllers.js";
 
 const router = Router()
 
 router.post("/register-user",registerUser)
-router.post("/user-document",upload.fields(
-    [
-        {
-            name : 'document',
-            maxCount : 1
-        }
-    ]
-),getUserDocument)
+router.put("/update-user",)
 export default router

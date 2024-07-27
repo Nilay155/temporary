@@ -87,7 +87,7 @@ export const loginWorker = asyncHandler(async (req, res) => {
         return res
         .status(200)
         .cookie("accesstoken",token,options)
-        .json(new ApiResponse(200,token,"User Logged in Sucessfully"))
+        .json(new ApiResponse(200,{token,worker},"User Logged in Sucessfully"))
     } catch (error) {
         throw new ApiError(404,"Worker Login Failed",error.message)
     }
@@ -134,4 +134,114 @@ export const availUserScheme = asyncHandler(async (req,res) => {
         throw new ApiError(404,"Scheme Availing Failed",error.message)   
     }
 
+})
+
+export const register = asyncHandler(async (req,res) => {
+    try {
+        const {
+            name,
+            religion,
+            income,
+            gender,
+            caste,
+            maritalStatus,
+            age,
+            houseOwned,
+            phoneNumber
+    
+        } = req.body
+        
+        const { id } = req.params
+
+        const exisitingUser = await User.findOne(
+            {
+                name,
+                religion,
+                income,
+                gender,
+                caste,
+                maritalStatus,
+                age,
+                houseOwned,
+                phoneNumber
+            }
+        )
+        // console.log(exisitingUser);
+        if(exisitingUser) {
+            throw new ApiError(404,"user already exists")
+        }
+    
+        const newUser = await User.create(
+            {
+                name,
+                religion,
+                income,
+                gender,
+                caste,
+                maritalStatus,
+                age,
+                houseOwned,
+                phoneNumber
+            }
+        )
+        
+        const fwl = await Worker.findById(id)
+        fwl.userObjects.push(newUser)
+        await fwl.save({validateBeforeSave : false})
+
+        return res
+        .status(200)
+        .json(new ApiResponse(200,fwl,"User Registered Sucessfully By FWL"))
+    }
+    catch (error) {
+        throw new ApiError(404,"Registration Failed",error.message)
+    }
+})
+
+export const updateUser = asyncHandler(async (req,res) => {
+
+    try {
+
+        const {userId} = req.body
+        const  {
+            name,
+            religion,
+            income,
+            gender,
+            caste,
+            maritalStatus,
+            age,
+            houseOwned,
+            phoneNumber
+    
+        } = req.body
+        const exisitingUser = await User.findByIdAndUpdate(userId,
+            {
+                name,
+                religion,
+                income,
+                gender,
+                caste,
+                maritalStatus,
+                age,
+                houseOwned,
+                phoneNumber
+            },
+            {
+                new : true
+            }
+        )
+
+        if(!exisitingUser) {
+            throw new ApiError(404,"User Does Not Exist")
+        }
+
+        return res
+        .status(200)
+        .json(new ApiResponse(200,exisitingUser,"Details Updated Sucessfully"))
+
+
+    } catch (error) {
+        throw new ApiError(404,"User Details Not Updated",error.message)
+    }
 })
