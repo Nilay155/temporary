@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.models.js";
 
 export const registerUser = asyncHandler(async (req,res) => {
+    console.log(req.body)
     try {
     const {
         name,
