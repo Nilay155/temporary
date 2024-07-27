@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('admin'); // Default to admin
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -22,18 +22,18 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
-
-    const response = await fetch('http://your-backend-url/login', {
+    setError('')
+    const response = await fetch('http://localhost:8000/api/workers/login-worker', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password, role }),
+      body: JSON.stringify({ username, password }),
     });
 
+    const data = await response.json();
+    console.log(data);
     if (response.ok) {
-      const data = await response.json();
       // Handle successful login
       navigate('/dashboard');
     } else {
@@ -52,7 +52,7 @@ const Login = () => {
             <input
               type="text"
               className="mt-1 p-2 w-full border rounded"
-              value={email}
+              value={username}
               onChange={handleEmailChange}
               required
             />

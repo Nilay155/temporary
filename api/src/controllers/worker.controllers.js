@@ -115,7 +115,6 @@ export const availUserScheme = asyncHandler(async (req,res) => {
     // const { flwId } = req.params
     const { userId , schemeId } = req.body
     
-    
     const user = await User.findById(userId)
     const scheme = await Scheme.findById(schemeId)
 

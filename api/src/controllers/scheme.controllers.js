@@ -9,7 +9,7 @@ export const matchSchemes = asyncHandler(async (req,res) => {
         const { id } = req.params
         const user = await User.findById(id)
 
-        const {age, income, caste, religion, maritalStatus, houseOwned } = user
+        const {age, income, caste, religion, maritalStatus } = user
 
         const applicableSchemes = await Scheme.find({
             $and: [

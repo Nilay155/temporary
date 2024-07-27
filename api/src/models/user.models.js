@@ -11,6 +11,9 @@ const userSchema = mongoose.Schema({
   maritalStatus: { type: Boolean },
   gender : {type : String},
   schemesAvailing: [{ type: mongoose.Schema.Types.ObjectId, ref: "Scheme" }],
+  documentURL : {
+    type : String
+  }
 });
 
 export const User = mongoose.model("User", userSchema);
